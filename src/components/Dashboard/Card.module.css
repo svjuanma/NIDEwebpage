@@ -1,0 +1,26 @@
+.title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 20%;
+  margin: 0 0 10px 0;
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+}
+
+.number {
+  font-size: 3em;
+  font-weight: 900;
+  color: black;
+  margin: 0px;
+  width: 100%;
+  height: 50%;
+  align-self: baseline;
+}
+
+img {
+  margin-left: 10px;
+}

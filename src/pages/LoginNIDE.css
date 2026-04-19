@@ -1,0 +1,183 @@
+/* LoginNIDE.css */
+
+/* 1. Contenedor principal: Ocupa toda la pantalla y divide en dos */
+.login-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Contenedor general para separar el Navbar del resto */
+.login-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Ajuste al form-side para que los elementos se apilen verticalmente */
+.form-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column; /* Apila el selector y la card */
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 20px;
+}
+
+/* Estilos de la barra de roles */
+.role-selector {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 2rem;
+  background-color: #f4f4f4;
+  padding: 5px;
+  border-radius: 12px;
+}
+
+.role-btn {
+  padding: 8px 16px;
+  border: none;
+  background: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.role-btn:hover {
+  color: #000;
+}
+
+/* Clase para el botón seleccionado */
+.role-btn.active {
+  background-color: #ffffff;
+  color: #000;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Subtítulo dinámico en el H2 */
+.role-subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  font-weight: 400;
+}
+
+/* 2. Lado de la imagen */
+.image-nide {
+  flex: 1; /* Toma el 50% del ancho */
+  position: relative;
+  overflow: hidden;
+  padding: 10%;
+}
+
+.image-nide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Hace que la imagen llene el espacio sin deformarse */
+}
+
+/* 3. Lado del formulario */
+.form-side {
+  flex: 1; /* Toma el otro 50% */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+}
+
+.login-card h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #000;
+}
+
+/* 4. Estilos de los inputs y grupos */
+.input-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.label-container {
+  display: flex;
+  justify-content: space-between; /* Pone el nombre a la izquierda y "Obligatorio" a la derecha */
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.label-container label {
+  font-weight: 500;
+  color: #333;
+}
+
+.required-tag {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box; /* Importante para que el padding no ensanche el input */
+}
+
+input::placeholder {
+  color: #bbb;
+}
+
+/* 5. Link de "Olvidé mi contraseña" */
+.forgot-link {
+  font-size: 0.85rem;
+  color: #666;
+  text-decoration: none;
+  margin-top: 0.5rem;
+  display: inline-block;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+/* 6. Botón de continuar */
+.submit-btn {
+  width: 100%;
+  background-color: #1a1a1a;
+  color: white;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #333;
+}
+
+/* Responsive: Si la pantalla es pequeña, pon la imagen arriba y el form abajo */
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+  }
+  
+  .image-nide {
+    height: 40vh;
+  }
+}

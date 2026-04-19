@@ -1,0 +1,168 @@
+:root {
+  --navbar-height: 72px;
+  --nav-bg: #f7f1fb; /* pale lavender */
+  --accent: #a27bff; /* purple accent for the underline and borders */
+  --accent-strong: #7a4bff;
+  --login-bg: #efe6ff; /* button background */
+}
+
+.navbar {
+  background: var(--nav-bg);
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+  height: var(--navbar-height);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+  height: 100%;
+  position: relative;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  margin-right: 10px;
+}
+
+.brandText {
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.toggle {
+  background: none;
+  border: 0;
+  display: none; /* shown on mobile */
+  cursor: pointer;
+  padding: 6px;
+}
+
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #2b2b2b;
+  margin: 4px 0;
+  border-radius: 2px;
+}
+
+.navLinks {
+  list-style: none;
+  display: none;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.navLink {
+  text-decoration: none;
+  color: #111111;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.navLink:hover,
+.navLink:focus {
+  background: rgba(0,0,0,0.03);
+}
+
+.active {
+  color: var(--accent-strong);
+}
+
+/* Center links for desktop (hidden on mobile) */
+.centerLinksDesktop {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.centerLinksDesktop .navLink {
+  background: transparent;
+  border: 0;
+  color: #2b2b2b;
+}
+
+.rightActions {
+  position: absolute;
+  right: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.loginBtn {
+  display: inline-block;
+  background: var(--login-bg);
+  color: var(--accent-strong);
+  padding: 0.45rem 0.9rem;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 700;
+  border: 1px solid rgba(122,75,255,0.12);
+  box-shadow: none;
+}
+
+.loginBtn:hover {
+  background: #efe0ff;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .toggle {
+    display: block;
+  }
+
+  .centerLinksDesktop {
+    display: none;
+  }
+
+  .rightActions {
+    display: none;
+  }
+
+  .navLinks {
+    position: absolute;
+    right: 1rem;
+    top: var(--navbar-height);
+    background: #fff;
+    flex-direction: column;
+    padding: 0.5rem;
+    border: 1px solid #e6e6e6;
+    border-radius: 6px;
+    display: none;
+    min-width: 160px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .navLinks.open {
+    display: flex;
+  }
+}
