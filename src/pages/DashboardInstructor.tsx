@@ -73,7 +73,7 @@ const [searchBar, setSearchBar] = useState(false)
         })}
       </div>
       <div className={[dashboard.card,dashboard.tall].join(' ')}><h1>Ejercicios</h1><p>Volumen total resuelto</p><PieGraph data={datosPie} /> </div>
-      <div className={dashboard.card}><h1>Precisión</h1><p>Promedio grupal de respuestas correctas</p> <Gauge value={precisionGrupal} /></div>
+      <div className={dashboard.card}><h1>Precisión</h1><p>Promedio grupal de respuestas correctas</p> <Gauge value={(precisionGrupal) ? precisionGrupal:0} /></div>
     </div>
   );
 }

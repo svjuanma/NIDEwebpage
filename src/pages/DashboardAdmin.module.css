@@ -49,6 +49,10 @@
   min-width: 150px;
 }
 
+.interactive:hover{
+  background-color: #eee;
+}
+
 .card h1 {
   font-size: 1.3em;
   font-weight: 800;

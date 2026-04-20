@@ -1,54 +1,55 @@
 import { useState, type ChangeEvent } from "react";
 import { SearchStudentCell } from "./SearchStudentCell";
-import style from './StudentsSearch.module.css';
+import style from './pendingRequests.module.css';
 
 interface Props {
   isOpen: boolean,
   onClose: () => void
 }
 
-interface Student {
+interface User {
   id: number,
   name: string,
   genre: string,
-  upToAdd : boolean
+  role: string,
 }
 
-const usersBD : Student[] = [
-  { id: 1, name: 'Juan Manuel Pérez Velázquez', genre: 'Masculino', upToAdd: false },
-  { id: 2, name: 'Ana García', genre: 'Femenino', upToAdd: true},
-  { id: 3, name: 'Carlos López', genre: 'Masculino', upToAdd: false },
-  { id: 4, name: 'María Rodríguez', genre: 'Femenino', upToAdd: true},
-  { id: 5, name: 'Luis Fernández', genre: 'Masculino', upToAdd: false }
+const usersBD : User[] = [
+  { id: 1, name: 'Juan Manuel Pérez Velázquez', genre: 'Masculino', role: 'Administrador' },
+  { id: 2, name: 'Ana García', genre: 'Femenino', role: 'Tutor'},
+  { id: 3, name: 'Carlos López', genre: 'Masculino', role: 'Estudiante' },
+  { id: 4, name: 'María Rodríguez', genre: 'Femenino', role: 'Instructor'},
+  { id: 5, name: 'Luis Fernández', genre: 'Masculino', role: 'Estudiante' }
 ];
 
-export const StudentsSearch = ({ isOpen, onClose }: Props) => {
+export const PendingRequests = ({ isOpen, onClose }: Props) => {
   const [search, setSearch] = useState('');
-  const [selectedStudent, setSelectedStudent] = useState<null | Student>(null);
-  const [addedStudent, setAddedStudent] = useState<boolean | null>(null);
+  const [selectedUser, setSelectedUser] = useState<null | User>(null);
   
   const closerHandler = () => {
     setSearch('');
-    setSelectedStudent(null);
-    setAddedStudent(null); 
+    setSelectedUser(null);
     onClose();
   }
 
   const inputChange = (change: ChangeEvent<HTMLInputElement>) => {
     setSearch(change.target.value);
   }
+
+  const acceptUser = (user : User) => {
+    const unAuth = unauthorizedUsers.filter((unauthUser) => unauthUser.id!=user.id )
+    setUnauthorizedUsers(unAuth);
+    //!logica para post/update
+  }
+
+  const [unauthorizedUsers, setUnauthorizedUsers] = useState(usersBD);
   
-  const filteredUsers = usersBD.filter((student: Student) => {
-    const lowerCaseUser = student.name.toLocaleLowerCase();
+  const filteredUsers = unauthorizedUsers.filter((user: User) => {
+    const lowerCaseUser = user.name.toLocaleLowerCase();
     const lowerCaseSearch = search.toLocaleLowerCase();
     return lowerCaseUser.includes(lowerCaseSearch);
   });
 
-  const addStudent = (student : Student) => {
-    student.upToAdd ? setAddedStudent(true) : setAddedStudent(false);
-    console.log(student.id);
-    //! LOGICA DE CONSULTA BD
-  }
 
   if (!isOpen) return null;
 
@@ -64,29 +65,24 @@ export const StudentsSearch = ({ isOpen, onClose }: Props) => {
         />
         {filteredUsers.length > 0 ? (
           <div className={style.resultsList}>
-            {filteredUsers.map((student) => (
-              <div key={student.id} onClick={() => {
-                if (selectedStudent && selectedStudent.id === student.id) {
-                  setSelectedStudent(null);
-                  setAddedStudent(null); 
+            {filteredUsers.map((user) => (
+              <div key={user.id} onClick={() => {
+                if (selectedUser && selectedUser.id === user.id) {
+                  setSelectedUser(null);
                 } else {
-                  setSelectedStudent(student);
-                  setAddedStudent(null); 
+                  setSelectedUser(user);
                 }
               }}>
-                <SearchStudentCell name={student.name} genre={student.genre} />
+                <SearchStudentCell name={user.name} genre={user.genre} />
                 
-                {selectedStudent != null && (selectedStudent.id === student.id) ? (
+                {selectedUser != null && (selectedUser.id === user.id) ? (
                   <div className={style.acceptCard} >
-                    {addedStudent === null ? (
-                      <>
-                        <p>¿Confirmas que deseas agregar a tu grupo?</p>
+                    <p>¿Confirmas que deseas autorizar a este usuario?</p>
                         <svg viewBox="0 0 500 80" width="100%" height="100%" >
                         
                         <g className={style.btnDecline} onClick={(e) => {
                           e.stopPropagation(); 
-                          setSelectedStudent(null);
-                          setAddedStudent(null);
+                          setSelectedUser(null);
                         }}>
                           <rect className={style.svgBox} x="0" y="0" width="235" height="80" rx="20"/>
                           <path 
@@ -100,7 +96,7 @@ export const StudentsSearch = ({ isOpen, onClose }: Props) => {
 
                         <g className={style.btnAccept} transform="translate(235, 0)" onClick={(e) => {
                           e.stopPropagation(); 
-                          addStudent(student);
+                          acceptUser(user);
                         }}>
                           <rect className={style.svgBox} x="30" y="0" width="235" height="80" rx="20" />
                           <path 
@@ -112,16 +108,6 @@ export const StudentsSearch = ({ isOpen, onClose }: Props) => {
                           />
                         </g>
                         </svg>
-                      </>
-                    ) : (
-                      <>
-                      {addedStudent ? (
-                        <p>¡Estudiante agregado exitosamente!</p>
-                      ) : (
-                        <p>El estudiante ya fue asignado con otro instructor</p>
-                      )}
-                      </>
-                    )}
                   </div>
                 ) : null}
               </div>
