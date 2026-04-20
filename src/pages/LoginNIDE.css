@@ -1,6 +1,4 @@
-/* LoginNIDE.css */
 
-/* 1. Contenedor principal: Ocupa toda la pantalla y divide en dos */
 .login-container {
   display: flex;
   height: 100vh;
@@ -8,25 +6,22 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Contenedor general para separar el Navbar del resto */
 .login-page-wrapper {
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
 
-/* Ajuste al form-side para que los elementos se apilen verticalmente */
 .form-side {
   flex: 1;
   display: flex;
-  flex-direction: column; /* Apila el selector y la card */
+  flex-direction: column; 
   justify-content: center;
   align-items: center;
   background-color: #ffffff;
   padding: 20px;
 }
 
-/* Estilos de la barra de roles */
 .role-selector {
   display: flex;
   gap: 10px;
@@ -51,7 +46,6 @@
   color: #000;
 }
 
-/* Clase para el botón seleccionado */
 .role-btn.active {
   background-color: #ffffff;
   color: #000;
@@ -59,16 +53,14 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-/* Subtítulo dinámico en el H2 */
 .role-subtitle {
   font-size: 1.1rem;
   color: #666;
   font-weight: 400;
 }
 
-/* 2. Lado de la imagen */
 .image-nide {
-  flex: 1; /* Toma el 50% del ancho */
+  flex: 1; 
   position: relative;
   overflow: hidden;
   padding: 10%;
@@ -77,12 +69,12 @@
 .image-nide img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Hace que la imagen llene el espacio sin deformarse */
+  object-fit: cover; 
 }
 
-/* 3. Lado del formulario */
+
 .form-side {
-  flex: 1; /* Toma el otro 50% */
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -102,7 +94,6 @@
   color: #000;
 }
 
-/* 4. Estilos de los inputs y grupos */
 .input-group {
   margin-bottom: 1.5rem;
   display: flex;
@@ -111,7 +102,7 @@
 
 .label-container {
   display: flex;
-  justify-content: space-between; /* Pone el nombre a la izquierda y "Obligatorio" a la derecha */
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 0.5rem;
 }
@@ -132,14 +123,13 @@ input {
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1rem;
-  box-sizing: border-box; /* Importante para que el padding no ensanche el input */
+  box-sizing: border-box; 
 }
 
 input::placeholder {
   color: #bbb;
 }
 
-/* 5. Link de "Olvidé mi contraseña" */
 .forgot-link {
   font-size: 0.85rem;
   color: #666;
@@ -152,7 +142,6 @@ input::placeholder {
   text-decoration: underline;
 }
 
-/* 6. Botón de continuar */
 .submit-btn {
   width: 100%;
   background-color: #1a1a1a;
@@ -171,7 +160,6 @@ input::placeholder {
   background-color: #333;
 }
 
-/* Responsive: Si la pantalla es pequeña, pon la imagen arriba y el form abajo */
 @media (max-width: 768px) {
   .login-container {
     flex-direction: column;
@@ -180,4 +168,12 @@ input::placeholder {
   .image-nide {
     height: 40vh;
   }
+}
+.error-message {
+    color: #ff4d4d;
+    background-color: #ffe6e6; /* Cambiado de backgroundColor */
+    padding: 10px;
+    border-radius: 5px;       /* Cambiado de borderRadius */
+    font-size: 0.85rem;       /* Cambiado de fontSize */
+    margin-bottom: 15px;      /* Cambiado de marginBottom */
 }
