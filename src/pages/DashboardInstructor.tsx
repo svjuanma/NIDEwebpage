@@ -50,10 +50,10 @@ const [searchBar, setSearchBar] = useState(false)
 
   return (
     <div className={dashboard.home}>
-      <div className={dashboard.card}><Card title="Estudiantes Totales" desc="Alumnos inscritos" value={metricasTotales.estudiantes} icon={users}/></div>
-      <div className={dashboard.card}><Card title="Activos" desc="Alumnos activos esta semana" value={metricasTotales.activos} icon={users}/></div>
-      <div className={dashboard.card}><Card title="Avance General" desc="Porcentaje de completitud" value={metricasTotales.completitud} icon={users}/></div>
-      <div className={dashboard.card}><Card title="Alertas" desc="Requieren atención" value={metricasTotales.alertas} icon={users}/></div>
+      <div className={dashboard.card}><Card title="Estudiantes Totales" desc="Alumnos inscritos" value={String(metricasTotales.estudiantes)} icon={users}/></div>
+      <div className={dashboard.card}><Card title="Activos" desc="Alumnos activos esta semana" value={String(metricasTotales.activos)} icon={users}/></div>
+      <div className={dashboard.card}><Card title="Avance General" desc="Porcentaje de completitud" value={String(metricasTotales.completitud)} icon={users}/></div>
+      <div className={dashboard.card}><Card title="Alertas" desc="Requieren atención" value={String(metricasTotales.alertas)} icon={users}/></div>
       <div className={[dashboard.card, dashboard.medium].join(' ')}><h1>Dominio General</h1><p>Promedio de aciertos por operación matemática</p><BarsGraphH graphs={promediosOperaciones.graphs}/></div>
       <div className={[dashboard.card, dashboard.medium].join(' ')}><h1>Evolución</h1><p>Progreso de calificaciones mensual</p><LinearGraph measureKey="mes" data={datosEvolucion} categories={materias}/></div>
       <div className={[dashboard.card, dashboard.large].join(' ')}>

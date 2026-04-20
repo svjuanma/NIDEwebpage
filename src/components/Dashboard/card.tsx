@@ -1,6 +1,6 @@
 import card from "./Card.module.css"
 interface Card {
-  value : number,
+  value : string,
   icon : string,
   title : string,
   desc : string

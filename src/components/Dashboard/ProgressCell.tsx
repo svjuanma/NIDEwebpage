@@ -1,6 +1,7 @@
 import { ResponsiveContainer, Bar, Tooltip, BarChart, XAxis, YAxis } from "recharts"
 import { maleUser } from "../../assets"
 import { femaleUser } from "../../assets"
+import style from "./ProgressCell.module.css"
 
 interface Person {
   name: string,
@@ -17,16 +18,7 @@ export const ProgressCell = ({name, progress, precision, gender, instructor=fals
   const precisionData = [{category: "Precision", value: precision}];
 
   return(
-    <div 
-    style={{
-      border: "1px solid #dadada",
-      borderRadius: 20,
-      display:"flex",
-      flexDirection:"row",
-      gap: 20,
-      padding:7,
-      alignItems:"center"
-    }}>
+    <div className={style.mainContainer}>
     <img src={icon} alt="User icon" width={48} height={48} />
     <h1 style={{fontSize:"1em", flex:1, minWidth:120}}>{name}</h1>
     <div style={{display:"flex", flexDirection:"column", flex:2}}>

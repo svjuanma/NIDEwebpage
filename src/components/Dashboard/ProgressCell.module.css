@@ -1,0 +1,16 @@
+.mainContainer {
+    border: 1px solid #dadada;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 15px;
+    align-items:center
+}
+
+@media (max-width: 480px) {
+  .mainContainer{
+    flex-direction: column;
+    align-items:stretch
+  }
+}
