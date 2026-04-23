@@ -53,7 +53,7 @@ export const StudentsSearch = ({ isOpen, onClose }: Props) => {
   if (!isOpen) return null;
 
   return (
-    <div className={style.overlay} onClick={closerHandler}> 
+    <div className={style.overlay} style={{cursor:'pointer'}} onClick={closerHandler}> 
       <div className={style.mainCard} onClick={(e) => e.stopPropagation()}> 
         <input
           type="text"
@@ -83,7 +83,9 @@ export const StudentsSearch = ({ isOpen, onClose }: Props) => {
                         <p>¿Confirmas que deseas agregar a tu grupo?</p>
                         <svg viewBox="0 0 500 80" width="100%" height="100%" >
                         
-                        <g className={style.btnDecline} onClick={(e) => {
+                        <g className={style.btnDecline} 
+                        style={{cursor:'pointer'}} 
+                        onClick={(e) => {
                           e.stopPropagation(); 
                           setSelectedStudent(null);
                           setAddedStudent(null);
@@ -98,7 +100,10 @@ export const StudentsSearch = ({ isOpen, onClose }: Props) => {
                           />
                         </g>
 
-                        <g className={style.btnAccept} transform="translate(235, 0)" onClick={(e) => {
+                        <g className={style.btnAccept} 
+                        style={{cursor:'pointer'}}
+                        transform="translate(235, 0)" 
+                        onClick={(e) => {
                           e.stopPropagation(); 
                           addStudent(student);
                         }}>

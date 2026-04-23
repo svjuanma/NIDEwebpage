@@ -66,7 +66,9 @@ export const PendingRequests = ({ isOpen, onClose }: Props) => {
         {filteredUsers.length > 0 ? (
           <div className={style.resultsList}>
             {filteredUsers.map((user) => (
-              <div key={user.id} onClick={() => {
+              <div key={user.id} 
+              style={{cursor:'pointer'}}
+              onClick={() => {
                 if (selectedUser && selectedUser.id === user.id) {
                   setSelectedUser(null);
                 } else {
@@ -80,7 +82,9 @@ export const PendingRequests = ({ isOpen, onClose }: Props) => {
                     <p>¿Confirmas que deseas autorizar a este usuario?</p>
                         <svg viewBox="0 0 500 80" width="100%" height="100%" >
                         
-                        <g className={style.btnDecline} onClick={(e) => {
+                        <g className={style.btnDecline} 
+                        style={{cursor:'pointer'}}
+                        onClick={(e) => {
                           e.stopPropagation(); 
                           setSelectedUser(null);
                         }}>
@@ -94,7 +98,10 @@ export const PendingRequests = ({ isOpen, onClose }: Props) => {
                           />
                         </g>
 
-                        <g className={style.btnAccept} transform="translate(235, 0)" onClick={(e) => {
+                        <g className={style.btnAccept} 
+                        transform="translate(235, 0)"
+                        style={{cursor:'pointer'}}
+                        onClick={(e) => {
                           e.stopPropagation(); 
                           acceptUser(user);
                         }}>

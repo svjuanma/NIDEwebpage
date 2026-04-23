@@ -10,7 +10,7 @@
   margin: 10px auto;
   display: grid;
   justify-content: center;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: minmax(180px, auto);
   gap: 20px; 
   padding: 30px 5%;
@@ -23,6 +23,7 @@
 .medium {
   grid-column: span 2;
   grid-row: span 2;
+
 }
 
 .tall {
@@ -31,8 +32,8 @@
 }
 
 .large {
-  grid-column: span 3;
-  grid-row: span 3;
+  grid-column: span 2;
+  grid-row: span 2;
   gap: 20px;
   max-height: 800px;
   overflow-y: scroll;
@@ -89,13 +90,8 @@
 
 @media (max-width: 760px) {
   .home {
-    grid-template-columns: repeat(2, 1fr);
     padding: 20px;
     max-width: 90%;
-  }
-  .large {
-    grid-column: span 2;
-    grid-row: span 2;
   }
   .tall {
     grid-row: span 1;
@@ -107,8 +103,6 @@
     grid-template-columns: 1fr; 
     padding: 15px; 
   }
-  
-  /* Reseteamos los spans para que no rompan la única columna */
   .large, .medium, .tall {
     grid-column: span 1;
   }

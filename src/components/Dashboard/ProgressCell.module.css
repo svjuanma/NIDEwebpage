@@ -1,15 +1,92 @@
 .mainContainer {
     border: 1px solid #dadada;
     border-radius: 20px;
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
     padding: 15px;
-    align-items:center
 }
 
+.selectedContainer {
+    border: 2px solid #0000ffc9;
+    border-radius: 20px;
+    padding: 15px;
+    transform: translateX(10px);
+}
+
+.outerContent{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.selectDifficulty {
+  gap: 20px;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+}
+
+.difficultyOpts {
+  display: flex;
+  flex-direction: row;
+  justify-items: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.difficultyCell {
+  padding: 10px 20px;
+  border: 1px solid #dadada;
+  border-radius: 20px;
+  align-content: center;
+  justify-content: center;
+  margin: auto;
+  cursor: pointer;
+}
+
+.selectedDifficultyCell {
+background-color: #e6e6e6;
+}
+
+.innerContent{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
+.mainContainer:hover {
+  background: #e6e6e6;
+  cursor: pointer;
+}
+
+.svgBox {
+  fill: #666; 
+  transition: fill 0.3s ease;
+}
+
+.svgIcon {
+  stroke: #eee;
+  transition: stroke 0.3s ease;
+}
+
+.btnDecline:hover .svgIcon {
+  stroke: #FFFFFF;
+}
+.btnRemove:hover .svgBox {
+  fill: #E54741; 
+}
+.btnRemove:hover .svgIcon {
+  stroke: #FFFFFF;
+}
+
+
+
+
 @media (max-width: 480px) {
-  .mainContainer{
+  .innerContent{
+    flex-direction: column;
+    align-items:stretch
+  }
+  .selectDifficulty {
     flex-direction: column;
     align-items:stretch
   }

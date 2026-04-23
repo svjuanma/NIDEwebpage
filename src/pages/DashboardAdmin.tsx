@@ -52,9 +52,10 @@ const [pendingReq, setPendingReq] = useState(false)
     <div className={dashboard.home}>
       <div className={dashboard.card}><Card title="Instructores" desc="Total de instructores activos" value={String(metricasTotales.instructores)} icon={users}/></div>
       <div className={dashboard.card}><Card title="Tutores" desc="Total de tutores activos" value={String(metricasTotales.tutores)} icon={users}/></div>
-      <div className={dashboard.card}><Card title="Estudiantes" desc="Total de estudiantes activos" value={String(metricasTotales.estudiantes)} icon={users}/></div>
+      <div className={dashboard.card} ><Card title="Estudiantes" desc="Total de estudiantes activos" value={String(metricasTotales.estudiantes)} icon={users}/></div>
       <div className={[dashboard.card, dashboard.interactive].join(' ')} 
       onClick={() => setPendingReq(true)}
+      style={{cursor:'pointer'}}
       ><Card title="Solicitudes pendientes" desc="Total de solicitudes no aceptadas" value={String(metricasTotales.solicitudes)} icon={users}/></div>
       {/* <div className={[dashboard.card, dashboard.medium].join(' ')}><h1>Dominio General</h1><p>Promedio de aciertos por operación matemática</p><BarsGraphH graphs={promediosOperaciones.graphs}/></div> */}
       {/* <div className={[dashboard.card, dashboard.medium].join(' ')}><h1>Evolución</h1><p>Progreso de calificaciones mensual</p><LinearGraph measureKey="mes" data={datosEvolucion} categories={materias}/></div> */}
