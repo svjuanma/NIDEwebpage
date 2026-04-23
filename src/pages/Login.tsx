@@ -30,7 +30,7 @@ const LoginNIDE = () => {
     }
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_LOGIN_API_URL}/login`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

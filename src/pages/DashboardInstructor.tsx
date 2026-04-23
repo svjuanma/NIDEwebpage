@@ -35,7 +35,7 @@ const DashInstructor = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await fetch("https://j6jij2hqtqm2baazplqbltnquu0amkcx.lambda-url.us-east-1.on.aws/dash/instructor/", {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/dash/instructor`, {
           method: 'POST',
           headers: {
             'Content-type': 'application/json'
