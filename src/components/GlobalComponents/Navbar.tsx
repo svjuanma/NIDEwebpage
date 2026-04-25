@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type ReactElement } from "react";
 import { Link } from "react-router-dom";
 import { HashLink } from 'react-router-hash-link';
 import styles from "./navbar.module.css";
+import { useAuth } from "../../context/AuthContext";
 
 const CENTER_LINKS = [
     { id: "nosotros", label: "Nosotros" },
@@ -16,6 +17,7 @@ function Navbar(): ReactElement {
     const [open, setOpen] = useState(false);
     const menuRef = useRef<HTMLUListElement | null>(null);
     const buttonRef = useRef<HTMLButtonElement | null>(null);
+    const { userId, logout } = useAuth();
 
 
     useEffect(() => {
@@ -44,7 +46,9 @@ function Navbar(): ReactElement {
         };
     }, [open]);
 
-   
+   const manageSession = () => {
+    if (userId != null) logout();
+   }
 
     return (
         <nav className={styles.navbar} aria-label="Main navigation">
@@ -81,12 +85,15 @@ function Navbar(): ReactElement {
 
                 {/* Desktop login button */}
                 <div className={styles.rightActions}>
-                    <Link to="/login" className={styles.loginBtn}>
-                        Iniciar sesión
+                    <Link to="/login" className={styles.loginBtn} onClick={() => manageSession()}>
+                        {userId === null ? (
+                            <p>Iniciar sesión</p>
+                        ) : (
+                            <p>Cerrar sesión</p>
+                        )}
                     </Link>
                 </div>
 
-                {/* mobile menu */}
                 <ul
                     id="primary-navigation"
                     ref={menuRef}

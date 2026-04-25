@@ -10,11 +10,7 @@ interface SectionProps {
     className?: string;
 }
 
-/**
- * Reusable content section used for Nosotros, Misión, Visión, etc.
- * - Renders a heading, optional text (string or node) and optional image.
- * - Keeps the same markup/classes as the original Nosotros component so styles work.
- */
+
 const Nosotros = ({ id, title, text, imgSrc, imgAlt, className }: SectionProps) => {
     return (
         <section id={id} className={`${styles.nosotrosSection} ${className ?? ''}`}>

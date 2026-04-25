@@ -1,8 +1,9 @@
-import test from "../components/Dashboard/test.json"
+// import test from "../components/Dashboard/test.json"
 import { useState, useEffect, useMemo } from "react";
 import { Card, BarsGraphH, Gauge, LinearGraph, PieGraph, ProgressCell, StudentsSearch } from "../components/Dashboard/index";
 import { users, searchLoupe } from "../assets/index";
 import dashboard from "./DashboardInstructor.module.css";
+import { useAuth } from "../context/AuthContext";
 
 interface Statistics {
   correctAnswers: number,
@@ -31,7 +32,8 @@ const DashInstructor = () => {
   const [students, setStudents] = useState<Student[]>([]);
   const [gameStats, setGameStats] = useState({ npcs: 0 });
   const operations = ['suma', 'resta', 'multiplicacion', 'division'];
-
+  const [untrackedStudents, setUntrackedStudents] = useState(false);
+  const { userId } = useAuth();
   useEffect(() => {
     const fetchStudents = async () => {
       try {
@@ -40,13 +42,13 @@ const DashInstructor = () => {
           headers: {
             'Content-type': 'application/json'
           },
-          body: JSON.stringify({id_instructor: 18})
+          body: JSON.stringify({id_instructor: userId})
         }); 
         if (!response.ok) throw new Error("Response error");
         const { getStudents, npcs } = await response.json();
 
-        //? await new Promise(resolve => setTimeout(resolve, 1000));
-        //? const { getStudents, npcs } = test;
+        //  await new Promise(resolve => setTimeout(resolve, 1000));
+        //  const { getStudents, npcs } = test;
         setGameStats({ npcs });
         
 
@@ -70,7 +72,8 @@ const DashInstructor = () => {
       }
     };
     fetchStudents();
-  }, []);
+    setUntrackedStudents(false)
+  }, [untrackedStudents]);
 
   const difficultyChange = (studentId: number, newDifficulty: string) => {
   setStudents(prevStudents => 
@@ -223,7 +226,7 @@ let time, hours, minutes, seconds;
             <img src={searchLoupe} alt="Search Icon" width={32} height={32}/>
             <p style={{color: "#464646"}}>Agregar un estudiante</p>
           </button>
-          <StudentsSearch isOpen={searchBar} onClose={() => setSearchBar(false)}/>
+          <StudentsSearch  isOpen={searchBar} onClose={() => { setUntrackedStudents(true); setSearchBar(false)}}/>
         </div>
         
         {students.map((student: Student) => {
@@ -237,7 +240,7 @@ let time, hours, minutes, seconds;
             }
           }}>
             <ProgressCell 
-              id={String(student.id)} 
+              id={student.id} 
               name={student.name}
               progress={student.progress} 
               precision={student.precision} 
@@ -245,6 +248,7 @@ let time, hours, minutes, seconds;
               isSelected={selectedStudent?.id === student.id}
               difficulty={student.difficulty}
               setDifficulty={ (newDiff : string) => difficultyChange(student.id, newDiff)}
+              untrackedStudents={ () => setUntrackedStudents(true) }
             />
           </div>);
         })}

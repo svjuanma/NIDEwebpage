@@ -129,6 +129,9 @@
   border: 1px solid rgba(122,75,255,0.12);
   box-shadow: none;
 }
+.loginBtn p{
+  margin: 0px;
+}
 
 .loginBtn:hover {
   background: #efe0ff;

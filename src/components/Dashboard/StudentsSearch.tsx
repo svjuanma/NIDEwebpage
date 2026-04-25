@@ -1,6 +1,8 @@
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { SearchStudentCell } from "./SearchStudentCell";
 import style from './StudentsSearch.module.css';
+import { setStudent } from "./setStudent";
+import { useAuth } from "../../context/AuthContext";
 
 interface Props {
   isOpen: boolean,
@@ -10,22 +12,18 @@ interface Props {
 interface Student {
   id: number,
   name: string,
-  genre: string,
+  gender: string,
   upToAdd : boolean
 }
 
-const usersBD : Student[] = [
-  { id: 1, name: 'Juan Manuel Pérez Velázquez', genre: 'Masculino', upToAdd: false },
-  { id: 2, name: 'Ana García', genre: 'Femenino', upToAdd: true},
-  { id: 3, name: 'Carlos López', genre: 'Masculino', upToAdd: false },
-  { id: 4, name: 'María Rodríguez', genre: 'Femenino', upToAdd: true},
-  { id: 5, name: 'Luis Fernández', genre: 'Masculino', upToAdd: false }
-];
+
 
 export const StudentsSearch = ({ isOpen, onClose }: Props) => {
   const [search, setSearch] = useState('');
   const [selectedStudent, setSelectedStudent] = useState<null | Student>(null);
   const [addedStudent, setAddedStudent] = useState<boolean | null>(null);
+  const [studentsList, setStudentsList] = useState([])
+  const {userId} = useAuth();
   
   const closerHandler = () => {
     setSearch('');
@@ -33,21 +31,35 @@ export const StudentsSearch = ({ isOpen, onClose }: Props) => {
     setAddedStudent(null); 
     onClose();
   }
-
+useEffect( () => {
+  const getStudents = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/dash/instructor/getEstudiantesParaAsignar`);
+      if(!response.ok) throw new Error('failed to get students list');
+      const getStudents = await response.json();
+      setStudentsList(getStudents);
+    } catch (e) {
+      console.error(`Error: ${e}`);
+    }
+  }
+  getStudents();
+}, [])
+  
   const inputChange = (change: ChangeEvent<HTMLInputElement>) => {
     setSearch(change.target.value);
   }
   
-  const filteredUsers = usersBD.filter((student: Student) => {
+  const filteredUsers = studentsList.filter((student: Student) => {
     const lowerCaseUser = student.name.toLocaleLowerCase();
     const lowerCaseSearch = search.toLocaleLowerCase();
     return lowerCaseUser.includes(lowerCaseSearch);
   });
 
   const addStudent = (student : Student) => {
-    student.upToAdd ? setAddedStudent(true) : setAddedStudent(false);
-    console.log(student.id);
-    //! LOGICA DE CONSULTA BD
+    if (student.upToAdd) {
+      setAddedStudent(true)
+      setStudent(student.id, userId);
+    } else setAddedStudent(false);
   }
 
   if (!isOpen) return null;
@@ -64,7 +76,7 @@ export const StudentsSearch = ({ isOpen, onClose }: Props) => {
         />
         {filteredUsers.length > 0 ? (
           <div className={style.resultsList}>
-            {filteredUsers.map((student) => (
+            {filteredUsers.map((student : Student) => (
               <div key={student.id} onClick={() => {
                 if (selectedStudent && selectedStudent.id === student.id) {
                   setSelectedStudent(null);
@@ -74,7 +86,7 @@ export const StudentsSearch = ({ isOpen, onClose }: Props) => {
                   setAddedStudent(null); 
                 }
               }}>
-                <SearchStudentCell name={student.name} genre={student.genre} />
+                <SearchStudentCell name={student.name} gender={student.gender} />
                 
                 {selectedStudent != null && (selectedStudent.id === student.id) ? (
                   <div className={style.acceptCard} >

@@ -2,32 +2,52 @@ import { ResponsiveContainer, Bar, Tooltip, BarChart, XAxis, YAxis } from "recha
 import { maleUser } from "../../assets"
 import { femaleUser } from "../../assets"
 import style from "./ProgressCell.module.css"
+import { setStudent } from "./setStudent"
+
 
 interface Person {
-  id: string,
+  id: number,
   name: string,
   progress: number,
   precision: number,
   gender: string,
   instructor?: boolean
   difficulty ?: string,
-  setDifficulty ?: (newDIff: string) => void
 }
 
 interface Props extends Person {
   isSelected: boolean
+  setDifficulty ?: (newDIff: string) => void
+  untrackedStudents ?: () => void
 }
 
-export const ProgressCell = ({id, name, progress, precision, gender, instructor=false, difficulty, setDifficulty, isSelected}: Props ) => {
+const sendNewDifficulty = async (id_student: number, difficulty: string) => {
+  try {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/dash/instructor/cambiarDificultad`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({dificultad: difficulty, idEstudiante: id_student})
+    });
+    if (!response.ok) throw new Error('Error en en el envio de dificultad');
+}
+catch (e) {
+  console.error(`Unexpected error: ${e}`);
+}
+}
+
+export const ProgressCell = ({id, name, progress, precision, gender, instructor=false, difficulty, setDifficulty, isSelected, untrackedStudents}: Props ) => {
   const isInstructor = instructor ? "promedio de estudiantes" : "";
   const icon = gender.toLowerCase()=="female" ? femaleUser : maleUser;
   const progressData = [{category: "Progress", value: progress}];
   const precisionData = [{category: "Precision", value: precision}];
   const difficultyArr = ['facil', 'intermedio', 'dificil'];
 
+
   
   return(
-    <div className={isSelected ?  style.selectedContainer : style.mainContainer }  >
+    <div className={isSelected ?  style.selectedContainer : style.mainContainer } >
       <div className={style.outerContent}>
         <div className={style.innerContent}>
           <img src={icon} alt="User icon" width={48} height={48} />
@@ -81,8 +101,8 @@ export const ProgressCell = ({id, name, progress, precision, gender, instructor=
               style={{ cursor: 'pointer' }}
               onClick={(e) => {
                 e.stopPropagation(); 
-                //!  eliminar al usuario
-                console.log(id);
+                setStudent(id, null);
+                untrackedStudents?.();
               }}
             >
               <circle className={style.svgBox} cx="50" cy="50" r="45" />
@@ -104,7 +124,7 @@ export const ProgressCell = ({id, name, progress, precision, gender, instructor=
             {difficultyArr.map( (difficultyOpt: string, index) => (
               <div key={index} className={difficultyOpt == difficulty ? [style.selectedDifficultyCell, style.difficultyCell].join(' ') : style.difficultyCell} onClick={ () => {
                 setDifficulty?.(difficultyOpt);
-                //! agregar fetch post para enviar el cambio a la bd
+                sendNewDifficulty(id, difficultyOpt);
               }}>
                 {difficultyOpt}
               </div>

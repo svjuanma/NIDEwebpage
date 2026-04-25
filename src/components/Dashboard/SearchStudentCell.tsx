@@ -3,11 +3,11 @@ import style from "./SearchStudentCell.module.css"
 
 interface Student {
   name: string,
-  genre: string
+  gender: string
 }
 
-export const SearchStudentCell = ({ name, genre} : Student) => {
-  const userGenre = genre == "Femenino" ?  femaleUser : maleUser;
+export const SearchStudentCell = ({ name, gender} : Student) => {
+  const userGenre = gender == "Femenino" ?  femaleUser : maleUser;
   return (
     <div className={style.card}>
       <img src={userGenre} alt="User Icon"/>

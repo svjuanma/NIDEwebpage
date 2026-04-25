@@ -8,20 +8,36 @@ import DashInstructor from './pages/DashboardInstructor'
 import DashAdmin from './pages/DashboardAdmin';
 import DashTutor from './pages/DashboardTutor';
 import GameView from './pages/Game';
+import { AuthProvider } from './context/AuthContext';
+import { ProtectedRoute } from './pages/ProtectedRoute';
 
 function App() {
   return(
     <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/" element = {<Landing/>}/>
-        <Route path="/login" element = {<Login/>}/>
-        <Route path='/dash-admin' element = {<DashAdmin/>}/>
-        <Route path='/dash-instructor' element = {<DashInstructor/>}/>
-        <Route path='/dash-tutor' element = {<DashTutor/>}/>
-        <Route path='/juego' element = {<GameView/>}/>
-      </Routes>
-      <Footer />
+      <AuthProvider>
+        <Navbar />
+        <Routes>
+          <Route path="/" element = {<Landing/>}/>
+          <Route path="/login" element = {<Login/>}/>
+          <Route path='/dash-admin' element = {
+            <ProtectedRoute>
+              <DashAdmin/>
+            </ProtectedRoute>
+          }/>
+          <Route path='/dash-instructor' element = {
+            <ProtectedRoute>
+              <DashInstructor/>
+            </ProtectedRoute>
+            }/>
+          <Route path='/dash-tutor' element = {
+            <ProtectedRoute>
+              <DashTutor/>
+            </ProtectedRoute>
+            }/>
+          <Route path='/juego' element = {<GameView/>}/>
+        </Routes>
+        <Footer />
+      </AuthProvider>
     </BrowserRouter>
   );
 }

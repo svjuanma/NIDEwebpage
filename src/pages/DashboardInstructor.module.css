@@ -79,9 +79,6 @@
   max-height: 50%;
 }
 
-.button :hover{
-  background: #d5d3d3;
-}
 
 @media (max-width: 760px) {
   .home {

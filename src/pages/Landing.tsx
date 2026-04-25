@@ -35,14 +35,20 @@ function Landing(){
             <Nosotros
                 id="mision"
                 title="Misión"
-                text={'Nuestra misión es ... (aquí pon el texto de la misión).'}
+                text={`Desarrollar a la infancia y juventud mexicanas, a través de
+                actividades que potencialicen las habilidades propias, brindando
+                alternativas funcionales que permitan alcanzar un crecimiento
+                académico y personal para incidir en la comunidad.`}
                 imgSrc="/src/assets/imagen_2_nide.jpg"
             />
 
             <Nosotros
                 id="vision"
                 title="Visión"
-                text={'Nuestra visión es ... (aquí pon el texto de la visión).'}
+                text={`Convertirnos en una institución referente en cuanto al
+                desarrollo infantil en México, siendo partícipes en el
+                desarrollo de cada niño que forma parte de nuestros
+                programas.`}
                 imgSrc="/src/assets/imagen_3_nide.png"
             />
 

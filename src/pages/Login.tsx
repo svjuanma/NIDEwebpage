@@ -2,12 +2,14 @@ import { useState } from 'react';
 import './LoginNIDE.css';
 import logo from '../assets/LOGO-NIDE.png';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const LoginNIDE = () => {
   const [role, setRole] = useState(''); 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const { login } = useAuth();
 
   const roles = ['Administrador', 'Instructor', 'Tutor', 'Estudiante'];
   
@@ -45,7 +47,7 @@ const LoginNIDE = () => {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('user', JSON.stringify(data));
+        login(data.id);
         const targetPath = routes.find(item => item.rol === role)?.path;
 
         if (targetPath) {
