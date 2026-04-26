@@ -6,17 +6,18 @@ import { setStudent } from "./setStudent"
 
 
 interface Person {
-  id: number,
+  id?: number,
   name: string,
   progress: number,
   precision: number,
   gender: string,
-  instructor?: boolean
+  instructor?: boolean,
   difficulty ?: string,
+  showId?: boolean
 }
 
 interface Props extends Person {
-  isSelected: boolean
+  isSelected?: boolean
   setDifficulty ?: (newDIff: string) => void
   untrackedStudents ?: () => void
 }
@@ -37,7 +38,7 @@ catch (e) {
 }
 }
 
-export const ProgressCell = ({id, name, progress, precision, gender, instructor=false, difficulty, setDifficulty, isSelected, untrackedStudents}: Props ) => {
+export const ProgressCell = ({id, name, progress, precision, gender, instructor=false, difficulty, setDifficulty, isSelected, untrackedStudents, showId=false}: Props ) => {
   const isInstructor = instructor ? "promedio de estudiantes" : "";
   const icon = gender.toLowerCase()=="female" ? femaleUser : maleUser;
   const progressData = [{category: "Progress", value: progress}];
@@ -47,9 +48,12 @@ export const ProgressCell = ({id, name, progress, precision, gender, instructor=
 
   
   return(
-    <div className={isSelected ?  style.selectedContainer : style.mainContainer } >
+    <div className={ [isSelected ?  style.selectedContainer : style.mainContainer, !isInstructor && style.mainContainerInteractive ].join(' ') } >
       <div className={style.outerContent}>
         <div className={style.innerContent}>
+          {showId && (
+            <p>{id}</p>
+          )}
           <img src={icon} alt="User icon" width={48} height={48} />
           <h1 style={{fontSize:"1em", flex:1, minWidth:120}}>{name}</h1>
           <div style={{display:"flex", flexDirection:"column", flex:2}}>
@@ -100,9 +104,11 @@ export const ProgressCell = ({id, name, progress, precision, gender, instructor=
               className={style.btnRemove} 
               style={{ cursor: 'pointer' }}
               onClick={(e) => {
-                e.stopPropagation(); 
-                setStudent(id, null);
-                untrackedStudents?.();
+                if (id) {
+                  e.stopPropagation(); 
+                  setStudent(id, null);
+                  untrackedStudents?.();
+                }
               }}
             >
               <circle className={style.svgBox} cx="50" cy="50" r="45" />
@@ -123,8 +129,10 @@ export const ProgressCell = ({id, name, progress, precision, gender, instructor=
             <div className={style.difficultyOpts}>
             {difficultyArr.map( (difficultyOpt: string, index) => (
               <div key={index} className={difficultyOpt == difficulty ? [style.selectedDifficultyCell, style.difficultyCell].join(' ') : style.difficultyCell} onClick={ () => {
-                setDifficulty?.(difficultyOpt);
-                sendNewDifficulty(id, difficultyOpt);
+                if (id){
+                  setDifficulty?.(difficultyOpt);
+                  sendNewDifficulty(id, difficultyOpt);
+                }
               }}>
                 {difficultyOpt}
               </div>

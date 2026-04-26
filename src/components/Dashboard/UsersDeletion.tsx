@@ -1,7 +1,7 @@
 // ! cambiar endpoint
 import { useEffect, useState, type ChangeEvent } from "react";
 import { SearchCell } from "./SearchCell";
-import style from './pendingRequests.module.css';
+import style from './UsersDeletion.module.css';
 
 interface Props {
   isOpen: boolean,
@@ -15,10 +15,10 @@ interface User {
   role: string,
 }
 
-export const PendingRequests = ({ isOpen, onClose }: Props) => {
+export const UsersDeletion = ({ isOpen, onClose }: Props) => {
   const [search, setSearch] = useState('');
   const [selectedUser, setSelectedUser] = useState<null | User>(null);
-  const [unauthorizedUsers, setUnauthorizedUsers] = useState([
+  const [activeUsers, setUnactiveUsers] = useState([
   { id: 1, name: 'Juan Manuel Pérez Velázquez', gender: 'Masculino', role: 'Administrador' },
   { id: 2, name: 'Ana García', gender: 'Femenino', role: 'Tutor'},
   { id: 3, name: 'Carlos López', gender: 'Masculino', role: 'Estudiante' },
@@ -29,9 +29,9 @@ export const PendingRequests = ({ isOpen, onClose }: Props) => {
 useEffect(() => {
  const fetchUnauthUsers = async () => {
   try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/acceptUsers`);
-        if(!response.ok) throw new Error(`Error obteniendo solicitudes`);
-        setUnauthorizedUsers(await response.json());
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/deleteUsers`);
+        if(!response.ok) throw new Error(`Error obteniendo usuarios activos`);
+        setUnactiveUsers(await response.json());
       } catch (e) {
         console.error(`Error: ${e}`);
       }
@@ -49,16 +49,16 @@ useEffect(() => {
     setSearch(change.target.value);
   }
 
-  const acceptUser = async (user : User, accepted = true) => {
-    const unAuth = unauthorizedUsers.filter((unauthUser) => unauthUser.id!=user.id );
-    setUnauthorizedUsers(unAuth);
+  const deleteUser = async (user : User) => {
+    const unAuth = activeUsers.filter((unauthUser) => unauthUser.id!=user.id );
+    setUnactiveUsers(unAuth);
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/acceptUsers`,{
-        method:'PUT',
+        method:'DELETE',
         headers:{
           'Content-type': 'application/json'
         },
-        body: JSON.stringify({userId:user.id, accepted: accepted})
+        body: JSON.stringify({userId:user.id})
       })
       if(!response.ok) throw new Error(`Error autorizando usuario`);
     } catch (e) {
@@ -66,7 +66,7 @@ useEffect(() => {
     }
   }
   
-  const filteredUsers = unauthorizedUsers.filter((user: User) => {
+  const filteredUsers = activeUsers.filter((user: User) => {
     const lowerCaseUser = user.name.toLocaleLowerCase();
     const lowerCaseSearch = search.toLocaleLowerCase();
     return lowerCaseUser.includes(lowerCaseSearch);
@@ -78,7 +78,7 @@ useEffect(() => {
   return (
     <div className={style.overlay} onClick={closerHandler}> 
       <div className={style.mainCard} onClick={(e) => e.stopPropagation()}>
-        <h2>Autorizar usuarios</h2>
+        <h2>Eliminar usuarios</h2>
         <input
           id="search"
           type="text"
@@ -103,14 +103,14 @@ useEffect(() => {
                 
                 {selectedUser != null && (selectedUser.id === user.id) ? (
                   <div className={style.acceptCard} >
-                    <p>¿Confirmas que deseas autorizar a este usuario?</p>
+                    <p>¿Confirmas que deseas eliminar a este usuario?</p>
                         <svg viewBox="0 0 500 80" width="100%" height="100%" >
                         
                         <g className={style.btnDecline} 
                         style={{cursor:'pointer'}}
                         onClick={(e) => {
                           e.stopPropagation(); 
-                          acceptUser(user, false)
+                          setSelectedUser(null);
                         }}>
                           <rect className={style.svgBox} x="0" y="0" width="235" height="80" rx="20"/>
                           <path 
@@ -127,7 +127,7 @@ useEffect(() => {
                         style={{cursor:'pointer'}}
                         onClick={(e) => {
                           e.stopPropagation(); 
-                          acceptUser(user);
+                          deleteUser(user);
                         }}>
                           <rect className={style.svgBox} x="30" y="0" width="235" height="80" rx="20" />
                           <path 

@@ -1,5 +1,5 @@
 import { useEffect, useState, type ChangeEvent } from "react";
-import { SearchStudentCell } from "./SearchStudentCell";
+import { SearchCell } from "./SearchCell";
 import style from './StudentsSearch.module.css';
 import { setStudent } from "./setStudent";
 import { useAuth } from "../../context/AuthContext";
@@ -86,7 +86,7 @@ useEffect( () => {
                   setAddedStudent(null); 
                 }
               }}>
-                <SearchStudentCell name={student.name} gender={student.gender} />
+                <SearchCell name={student.name} gender={student.gender} />
                 
                 {selectedStudent != null && (selectedStudent.id === student.id) ? (
                   <div className={style.acceptCard} >

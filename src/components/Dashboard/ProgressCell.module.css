@@ -43,7 +43,7 @@
 }
 
 .selectedDifficultyCell {
-background-color: #e6e6e6;
+background-color: #d6d4d4;
 }
 
 .innerContent{
@@ -53,7 +53,7 @@ background-color: #e6e6e6;
   align-items: center;
 }
 
-.mainContainer:hover {
+.mainContainerInteractive:hover {
   background: #e6e6e6;
   cursor: pointer;
 }

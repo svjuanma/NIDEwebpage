@@ -1,6 +1,4 @@
 import styles from './footer.module.css';
-import { Link } from 'react-router-dom';
-import { HashLink } from 'react-router-hash-link';
 
 function Footer() {
   const year = new Date().getFullYear();
