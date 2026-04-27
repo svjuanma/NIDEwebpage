@@ -92,6 +92,7 @@ const DashInstructor = () => {
     const activos = students.filter(s => s.history.length > 0).length; 
     
     let tiempoJuego = targetData.reduce( (timeAcc, student) => timeAcc += student.totalTime, 0);
+    console.log(tiempoJuego)
     let tiempoMedioResp = 0;
     let totalPreguntas = 0;
     let npcsCompletadosTarget = 0; 
@@ -177,8 +178,7 @@ let time, hours, minutes, seconds;
   hours = Math.trunc(time / 3600);
   time -= hours * 3600;
   minutes = Math.trunc(time / 60);
-  time -= minutes * 60;
-  seconds = Math.trunc(time / 60);
+  seconds = time - minutes * 60;
   return `${hours}h. ${minutes}m. ${seconds}s.`
 }, [metricasTarjetas.tiempoJuego]);
 

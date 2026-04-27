@@ -1,4 +1,4 @@
-// ! cambiar endpoint
+
 import { useEffect, useState, type ChangeEvent } from "react";
 import { SearchCell } from "./SearchCell";
 import style from './pendingRequests.module.css';
@@ -18,18 +18,12 @@ interface User {
 export const PendingRequests = ({ isOpen, onClose }: Props) => {
   const [search, setSearch] = useState('');
   const [selectedUser, setSelectedUser] = useState<null | User>(null);
-  const [unauthorizedUsers, setUnauthorizedUsers] = useState([
-  { id: 1, name: 'Juan Manuel Pérez Velázquez', gender: 'Masculino', role: 'Administrador' },
-  { id: 2, name: 'Ana García', gender: 'Femenino', role: 'Tutor'},
-  { id: 3, name: 'Carlos López', gender: 'Masculino', role: 'Estudiante' },
-  { id: 4, name: 'María Rodríguez', gender: 'Femenino', role: 'Instructor'},
-  { id: 5, name: 'Luis Fernández', gender: 'Masculino', role: 'Estudiante' }
-]);
+  const [unauthorizedUsers, setUnauthorizedUsers] = useState<User[]>([]);
 
 useEffect(() => {
  const fetchUnauthUsers = async () => {
   try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/acceptUsers`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/dash/admin/solicitudes`);
         if(!response.ok) throw new Error(`Error obteniendo solicitudes`);
         setUnauthorizedUsers(await response.json());
       } catch (e) {

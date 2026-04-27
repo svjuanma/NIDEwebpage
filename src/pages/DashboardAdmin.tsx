@@ -22,32 +22,23 @@ interface AdminStatistics {
 const DashAdmin = () => {
   const [pendingReq, setPendingReq] = useState(false);
   const [deleteUsers, setDeleteUsers] = useState(false);
-  const [data, setData] = useState<AdminStatistics>({
-adminsNum: 10,
-tutorsNum:10,
-studentsNum: 10,
-requestsNum: 10,
-instructors:[
-{name: "firstname lastname", gender: "Femenino", groupProgress:90, groupPrecision:80},
-{name: "firstname lastname", gender: "Femenino", groupProgress:90, groupPrecision:80},
-{name: "firstname lastname", gender: "Femenino", groupProgress:90, groupPrecision:80},
-]});
+  const [data, setData] = useState<AdminStatistics>();
 
-  // useEffect(() => {
-  //   const fetchUsers = async () => {
-  //     try {
-  //       const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/getUsers`);
-  //       if(!response.ok) throw new Error('Error al obtener información de usuarios');
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/dash/admin`);
+        if(!response.ok) throw new Error('Error al obtener información de usuarios');
         
-  //       const result = await response.json();
-  //       setData(result);
-  //     } catch (e) {
-  //       console.error(`Error: `, e);
-  //     }
-  //   };
+        const result = await response.json();
+        setData(result);
+      } catch (e) {
+        console.error(`Error: `, e);
+      }
+    };
     
-  //   fetchUsers();
-  // }, [untrackedUsers]);
+    fetchUsers();
+  }, [pendingReq, deleteUsers]);
 
 
 

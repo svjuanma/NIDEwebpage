@@ -2,6 +2,7 @@ import style from './Register.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { useAuth } from '../../context/AuthContext';
+import { useEffect } from 'react';
 
 interface Props {
   allowStudent?: boolean,
@@ -9,22 +10,22 @@ interface Props {
 }
 
 interface RegisterInputs {
-  role: string;
-  name: string;
-  lastname: string;
-  dateBirth?: string | null;
-  gender?: string;
-  email?: string | null;
-  password: string;
+  nombreRol: string;
+  nombre: string;
+  apellido: string;
+  fecha_nacimiento?: string | null;
+  genero?: string;
+  correo?: string | null;
+  contrasena: string;
 }
 
-const baseRoles = ['Administrador', 'Instructor', 'Tutor'];
+const rolesBase = ['Administrador', 'Instructor', 'Tutor'];
 
 export const Register = ({ allowStudent = false, onClose }: Props) => {
   const go = useNavigate();
   const { userId } = useAuth(); 
-
-  const availableRoles = allowStudent ? [...baseRoles, 'Estudiante'] : baseRoles;
+  const endpoint = allowStudent ? '/dash/instructor/crearEstudiante' : '/register';
+  const rolesDisponibles = allowStudent ? ['Estudiante'] : rolesBase;
 
   const {
     register,
@@ -35,36 +36,34 @@ export const Register = ({ allowStudent = false, onClose }: Props) => {
     formState: { errors, isSubmitting }
   } = useForm<RegisterInputs>({
     defaultValues: { 
-      role: '', 
-      name: '', 
-      lastname: '', 
-      dateBirth: '', 
-      gender: '', 
-      email: '', 
-      password: '' 
+      nombreRol: '', 
+      nombre: '', 
+      apellido: '', 
+      fecha_nacimiento: '', 
+      genero: '', 
+      correo: '', 
+      contrasena: '' 
     }
   });
 
-  const currentRole = watch('role');
+  const currentRole = watch('nombreRol');
   const isStudent = currentRole === 'Estudiante';
 
   const onSubmit: SubmitHandler<RegisterInputs> = async (data) => {
     try {
-      const finalPayload = {
-        name: data.name,
-        lastname: data.lastname,
-        password: data.password,
-        role: data.role,
-        gender: data.gender === "" ? 'Indefinido' : data.gender,
-        
-        dateBirth: isStudent ? data.dateBirth : (data.dateBirth === "" ? null : data.dateBirth),
-        email: isStudent ? null : data.email,
-        id_tutor: isStudent ? userId : null 
+      const payload = {
+        nombre: data.nombre,
+        apellido: data.apellido,
+        contrasena: data.contrasena,
+        nombreRol: data.nombreRol,
+        genero: data.genero === "" ? 'Indefinido' : data.genero,
+        fecha_nacimiento: isStudent ? data.fecha_nacimiento : (data.fecha_nacimiento === "" ? null : data.fecha_nacimiento),
+        correo: isStudent ? null : data.correo,
       };
 
-      console.log("Enviando a API:", finalPayload); 
+      const finalPayload = allowStudent ? {...payload, id_tutor: userId} : payload;
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
+      const response = await fetch(import.meta.env.VITE_API_URL + endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(finalPayload),
@@ -82,18 +81,20 @@ export const Register = ({ allowStudent = false, onClose }: Props) => {
   };
 
   return (
-    <div className={style.overlay}>
-      <div className={style.registerContainer}>
+    <div className={style.overlay} onClick={() => {
+      if(allowStudent) onClose?.();
+    }}>
+      <div className={style.registerContainer} onClick={(e) => e.stopPropagation()}>
         <section className={style.form}> 
           
           <div className={style.roleSelector}>
-            <input type="hidden" {...register('role', { required: 'Por favor, selecciona un rol' })} />
-            {availableRoles.map((r) => (
+            <input type="hidden" {...register('nombreRol', { required: 'Por favor, selecciona un rol' })} />
+            {rolesDisponibles.map((r) => (
               <button 
                 key={r}
                 type="button" 
                 className={currentRole === r ? `${style.roleBtn} ${style.active}` : style.roleBtn}
-                onClick={() => setValue('role', r, { shouldValidate: true })}
+                onClick={() => setValue('nombreRol', r, { shouldValidate: true })}
               >
                 {r}
               </button>
@@ -106,9 +107,9 @@ export const Register = ({ allowStudent = false, onClose }: Props) => {
               <p className={style.infoText}>La creación de cuentas de estudiantes solo se puede hacer una vez que tu solicitud sea aceptada e inicies sesión.</p>
             )}
             
-            {(errors.root || errors.role) && (
+            {(errors.root || errors.nombreRol) && (
               <p className={style.errorMessage}>
-                {errors.root?.message || errors.role?.message}
+                {errors.root?.message || errors.nombreRol?.message}
               </p>
             )}
             
@@ -116,59 +117,59 @@ export const Register = ({ allowStudent = false, onClose }: Props) => {
               
               <div className={style.inputGroup}>
                 <div className={style.labelContainer}>
-                  <label htmlFor="name">Nombre</label>
+                  <label htmlFor="nombre">Nombre</label>
                   <span className={style.requiredTagWarning}>Obligatorio</span>
                 </div>
                 <input 
-                  id="name" 
+                  id="nombre" 
                   type="text" 
-                  placeholder="Escribe tu nombre"
+                  placeholder={`Escribe ${allowStudent? 'el nombre del estudiante':'tu nombre'}`}
                   className={style.inputField}
-                  {...register("name",{ required: "El nombre es obligatorio" })}
+                  {...register("nombre",{ required: "El nombre es obligatorio" })}
                 />
-                {errors.name && <span className={style.inputError}>{errors.name.message}</span>}
+                {errors.nombre && <span className={style.inputError}>{errors.nombre.message}</span>}
               </div>
 
               <div className={style.inputGroup}>
                 <div className={style.labelContainer}>
-                  <label htmlFor="lastname">Apellido</label>
+                  <label htmlFor="apellido">Apellido</label>
                   <span className={style.requiredTagWarning}>Obligatorio</span>
                 </div>
                 <input 
-                  id="lastname" 
+                  id="apellido" 
                   type="text" 
-                  placeholder="Escribe tu apellido"
+                  placeholder={`Escribe ${allowStudent? 'el apellido del estudiante':'tu apellido'}`}
                   className={style.inputField}
-                  {...register("lastname", { required: "El apellido es obligatorio" })}
+                  {...register("apellido", { required: "El apellido es obligatorio" })}
                 />
-                {errors.lastname && <span className={style.inputError}>{errors.lastname.message}</span>}
+                {errors.apellido && <span className={style.inputError}>{errors.apellido.message}</span>}
               </div>
 
               <div className={style.inputGroup}>
                 <div className={style.labelContainer}>
-                  <label htmlFor="dateBirth">Fecha de Nacimiento</label>
+                  <label htmlFor="fecha_nacimiento">Fecha de Nacimiento</label>
                   <span className={isStudent ? style.requiredTagWarning : style.requiredTag}>
                     {isStudent ? 'Obligatorio' : 'Opcional'}
                   </span>
                 </div>
                 <input 
-                  id="dateBirth" 
+                  id="fecha_nacimiento" 
                   type="date" 
                   className={style.inputField}
-                  {...register("dateBirth", { required: isStudent ? "La fecha de nacimiento es obligatoria" : false })}
+                  {...register("fecha_nacimiento", { required: isStudent ? "La fecha de nacimiento es obligatoria" : false })}
                 />
-                {errors.dateBirth && <span className={style.inputError}>{errors.dateBirth.message}</span>}
+                {errors.fecha_nacimiento && <span className={style.inputError}>{errors.fecha_nacimiento.message}</span>}
               </div>
 
               <div className={style.inputGroup}>
                 <div className={style.labelContainer}>
-                  <label htmlFor="gender">Género</label>
+                  <label htmlFor="genero">Género</label>
                   <span className={style.requiredTag}>Opcional</span>
                 </div>
                 <select 
-                  id="gender"
+                  id="genero"
                   className={style.inputField}
-                  {...register("gender")}
+                  {...register("genero")}
                 >
                   <option value="" hidden>Selecciona una opción</option>
                   <option value="Femenino">Femenino</option>
@@ -179,40 +180,40 @@ export const Register = ({ allowStudent = false, onClose }: Props) => {
 
               <div className={style.inputGroup}>
                 <div className={style.labelContainer}>
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="correo">Email</label>
                   {!isStudent && <span className={style.requiredTagWarning}>Obligatorio</span>}
                 </div>
                 <input 
-                  id="email" 
+                  id="correo" 
                   type="email" 
                   placeholder="ejemplo@nide.com"
                   className={style.inputField}
                   disabled={isStudent}
                   style={{ backgroundColor: isStudent ? '#f3f4f6' : 'white', cursor: isStudent ? 'not-allowed' : 'text' }}
-                  {...register("email", { 
+                  {...register("correo", { 
                     required: isStudent ? false : "El email es obligatorio",
                     pattern: isStudent ? undefined : { value: /\S+@\S+\.\S+/, message: "Formato de correo inválido" }
                   })}
                 />
-                {errors.email && <span className={style.inputError}>{errors.email.message}</span>}
+                {errors.correo && <span className={style.inputError}>{errors.correo.message}</span>}
               </div>
 
               <div className={style.inputGroup}>
                 <div className={style.labelContainer}>
-                  <label htmlFor="password">Contraseña</label>
+                  <label htmlFor="contrasena">Contraseña</label>
                   <span className={style.requiredTagWarning}>Obligatorio</span>
                 </div>
                 <input 
-                  id="password" 
+                  id="contrasena" 
                   type="password" 
                   placeholder="Crea una contraseña"
                   className={style.inputField}
-                  {...register("password", { 
+                  {...register("contrasena", { 
                     required: "La contraseña es obligatoria",
                     minLength: { value: 6, message: "Debe tener al menos 6 caracteres" }
                   })}
                 />
-                {errors.password && <span className={style.inputError}>{errors.password.message}</span>}
+                {errors.contrasena && <span className={style.inputError}>{errors.contrasena.message}</span>}
               </div>
 
               <button 

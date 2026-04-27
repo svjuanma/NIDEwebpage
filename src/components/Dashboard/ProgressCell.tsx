@@ -12,6 +12,7 @@ interface Person {
   precision: number,
   gender: string,
   instructor?: boolean,
+  tutor?: boolean,
   difficulty ?: string,
   showId?: boolean
 }
@@ -38,7 +39,7 @@ catch (e) {
 }
 }
 
-export const ProgressCell = ({id, name, progress, precision, gender, instructor=false, difficulty, setDifficulty, isSelected, untrackedStudents, showId=false}: Props ) => {
+export const ProgressCell = ({id, name, progress, precision, gender, instructor=false, tutor=false, difficulty, setDifficulty, isSelected, untrackedStudents}: Props ) => {
   const isInstructor = instructor ? "promedio de estudiantes" : "";
   const icon = gender.toLowerCase()=="female" ? femaleUser : maleUser;
   const progressData = [{category: "Progress", value: progress}];
@@ -51,7 +52,7 @@ export const ProgressCell = ({id, name, progress, precision, gender, instructor=
     <div className={ [isSelected ?  style.selectedContainer : style.mainContainer, !isInstructor && style.mainContainerInteractive ].join(' ') } >
       <div className={style.outerContent}>
         <div className={style.innerContent}>
-          {showId && (
+          {tutor && (
             <p>{id}</p>
           )}
           <img src={icon} alt="User icon" width={48} height={48} />
@@ -98,7 +99,7 @@ export const ProgressCell = ({id, name, progress, precision, gender, instructor=
             </ResponsiveContainer>
             
           </div>
-          {(isSelected && !isInstructor) && (
+          {(isSelected && !isInstructor && !tutor) && (
             <svg viewBox="0 0 100 100" width="48" height="48" style={{justifySelf:"center"}}>
             <g 
               className={style.btnRemove} 
@@ -123,7 +124,7 @@ export const ProgressCell = ({id, name, progress, precision, gender, instructor=
           </svg>
           )}
         </div>
-        { (isSelected && !isInstructor) && (
+        { (isSelected && !isInstructor && !tutor) && (
           <div className={style.selectDifficulty} onClick={ e => e.stopPropagation()}>
             <p style={{maxWidth:"fit-content"}}>Selecciona dificultad</p>
             <div className={style.difficultyOpts}>
