@@ -92,7 +92,6 @@ const DashInstructor = () => {
     const activos = students.filter(s => s.history.length > 0).length; 
     
     let tiempoJuego = targetData.reduce( (timeAcc, student) => timeAcc += student.totalTime, 0);
-    console.log(tiempoJuego)
     let tiempoMedioResp = 0;
     let totalPreguntas = 0;
     let npcsCompletadosTarget = 0; 
@@ -226,7 +225,7 @@ let time, hours, minutes, seconds;
             <img src={searchLoupe} alt="Search Icon" width={32} height={32}/>
             <p style={{color: "#464646"}}>Agregar un estudiante</p>
           </button>
-          <StudentsSearch  isOpen={searchBar} onClose={() => { setUntrackedStudents(true); setSearchBar(false)}}/>
+          <StudentsSearch  isOpen={searchBar} untracked={untrackedStudents} onClose={() => { setUntrackedStudents(true); setSearchBar(false)}}/>
         </div>
         
         {students.map((student: Student) => {
@@ -248,7 +247,7 @@ let time, hours, minutes, seconds;
               isSelected={selectedStudent?.id === student.id}
               difficulty={student.difficulty}
               setDifficulty={ (newDiff : string) => difficultyChange(student.id, newDiff)}
-              untrackedStudents={ () => setUntrackedStudents(true) }
+              setUntracked={ () => setUntrackedStudents(true) }
             />
           </div>);
         })}

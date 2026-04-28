@@ -6,6 +6,8 @@ import style from './pendingRequests.module.css';
 interface Props {
   isOpen: boolean,
   onClose: () => void
+  untracked: boolean,
+  setUntracked: ()=> void
 }
 
 interface User {
@@ -15,7 +17,7 @@ interface User {
   role: string,
 }
 
-export const PendingRequests = ({ isOpen, onClose }: Props) => {
+export const PendingRequests = ({ isOpen, onClose, untracked, setUntracked }: Props) => {
   const [search, setSearch] = useState('');
   const [selectedUser, setSelectedUser] = useState<null | User>(null);
   const [unauthorizedUsers, setUnauthorizedUsers] = useState<User[]>([]);
@@ -23,7 +25,7 @@ export const PendingRequests = ({ isOpen, onClose }: Props) => {
 useEffect(() => {
  const fetchUnauthUsers = async () => {
   try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/dash/admin/solicitudes`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/dash/admin/usuariosPorAutorizar`);
         if(!response.ok) throw new Error(`Error obteniendo solicitudes`);
         setUnauthorizedUsers(await response.json());
       } catch (e) {
@@ -31,7 +33,7 @@ useEffect(() => {
       }
  }
  fetchUnauthUsers();
-},[])
+},[untracked])
   
   const closerHandler = () => {
     setSearch('');
@@ -47,7 +49,7 @@ useEffect(() => {
     const unAuth = unauthorizedUsers.filter((unauthUser) => unauthUser.id!=user.id );
     setUnauthorizedUsers(unAuth);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/acceptUsers`,{
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/dash/admin/aprobarSolicitud`,{
         method:'PUT',
         headers:{
           'Content-type': 'application/json'
@@ -55,6 +57,7 @@ useEffect(() => {
         body: JSON.stringify({userId:user.id, accepted: accepted})
       })
       if(!response.ok) throw new Error(`Error autorizando usuario`);
+      else setUntracked();
     } catch (e) {
       console.error(`Error: ${e}`);
     }
@@ -139,7 +142,7 @@ useEffect(() => {
             ))}
           </div>
         ) : (
-          <p className={style.emptySearch}>No se han encontrado estudiantes</p>
+          <p className={style.emptySearch}>No se han encontrado usuarios</p>
         )}
         
       </div>

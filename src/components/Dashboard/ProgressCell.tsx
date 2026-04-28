@@ -20,7 +20,7 @@ interface Person {
 interface Props extends Person {
   isSelected?: boolean
   setDifficulty ?: (newDIff: string) => void
-  untrackedStudents ?: () => void
+  setUntracked ?: () => void
 }
 
 const sendNewDifficulty = async (id_student: number, difficulty: string) => {
@@ -39,7 +39,7 @@ catch (e) {
 }
 }
 
-export const ProgressCell = ({id, name, progress, precision, gender, instructor=false, tutor=false, difficulty, setDifficulty, isSelected, untrackedStudents}: Props ) => {
+export const ProgressCell = ({id, name, progress, precision, gender, instructor=false, tutor=false, difficulty, setDifficulty, isSelected, setUntracked: setUntrackedStudents}: Props ) => {
   const isInstructor = instructor ? "promedio de estudiantes" : "";
   const icon = gender.toLowerCase()=="female" ? femaleUser : maleUser;
   const progressData = [{category: "Progress", value: progress}];
@@ -108,7 +108,7 @@ export const ProgressCell = ({id, name, progress, precision, gender, instructor=
                 if (id) {
                   e.stopPropagation(); 
                   setStudent(id, null);
-                  untrackedStudents?.();
+                  setUntrackedStudents?.();
                 }
               }}
             >

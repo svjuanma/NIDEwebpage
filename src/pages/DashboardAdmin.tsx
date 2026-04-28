@@ -12,10 +12,10 @@ interface Instructors {
 }
 
 interface AdminStatistics {
-  adminsNum: number,
-  tutorsNum: number,
-  studentsNum: number,
-  requestsNum: number,
+  adminNum: number,
+  tutorNum: number,
+  StudentNum: number,
+  RequestNum: number,
   instructors: Instructors[]
 }
 
@@ -23,6 +23,7 @@ const DashAdmin = () => {
   const [pendingReq, setPendingReq] = useState(false);
   const [deleteUsers, setDeleteUsers] = useState(false);
   const [data, setData] = useState<AdminStatistics>();
+  const [untrackedUsers, setUntrackedUsers] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -32,6 +33,7 @@ const DashAdmin = () => {
         
         const result = await response.json();
         setData(result);
+        setUntrackedUsers(false);
       } catch (e) {
         console.error(`Error: `, e);
       }
@@ -51,13 +53,13 @@ const DashAdmin = () => {
   }
 
   const dataPie = [
-    {category: 'Administradores', value: data.adminsNum},
+    {category: 'Administradores', value: Number(data.adminNum)},
     {category: 'Instructores', value: data.instructors.length},
-    {category: 'Estudiantes', value: data.studentsNum},
-    {category: 'Tutores', value: data.tutorsNum},
+    {category: 'Estudiantes', value: Number(data.StudentNum)},
+    {category: 'Tutores', value: Number(data.tutorNum)},
   ];
 
-  const totalUsers = data.adminsNum + data.studentsNum + data.tutorsNum + data.instructors.length;
+  const totalUsers = Number(data.StudentNum) + Number(data.tutorNum) + data.instructors.length + Number(data.adminNum);
 
   return (
     <div className={dashboard.home}>
@@ -69,7 +71,7 @@ const DashAdmin = () => {
       >
         <Card title="Eliminar usuarios" desc="Total usuarios activos en el sistema" value={String(totalUsers)} icon={users}/>
       </div>
-      <UsersDeletion isOpen={deleteUsers} onClose={() => setDeleteUsers(false)}/>
+      <UsersDeletion isOpen={deleteUsers} onClose={() => setDeleteUsers(false)} untracked={untrackedUsers} setUntracked={() => setUntrackedUsers(true)}/>
       
 
       <div className={dashboard.card}>
@@ -83,9 +85,9 @@ const DashAdmin = () => {
         onClick={() => setPendingReq(true)}
         style={{cursor:'pointer'}}
       >
-        <Card title="Solicitudes pendientes" desc="Total de solicitudes no aceptadas" value={String(data.requestsNum)} icon={users}/>
+        <Card title="Solicitudes pendientes" desc="Total de solicitudes no aceptadas" value={String(data.RequestNum)} icon={users}/>
       </div>
-      <PendingRequests isOpen={pendingReq} onClose={() => setPendingReq(false)}/>
+      <PendingRequests isOpen={pendingReq} onClose={() => setPendingReq(false)} untracked={untrackedUsers} setUntracked={() => setUntrackedUsers(true)}/>
       
       <div className={[dashboard.card, dashboard.large].join(' ')}>
         <div style={{padding: 5, display: "flex", flexDirection:"row", justifyContent:"space-between"}}>

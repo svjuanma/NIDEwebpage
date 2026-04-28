@@ -5,7 +5,9 @@ import style from './UsersDeletion.module.css';
 
 interface Props {
   isOpen: boolean,
-  onClose: () => void
+  onClose: () => void,
+  untracked: boolean,
+  setUntracked: ()=> void
 }
 
 interface User {
@@ -15,29 +17,23 @@ interface User {
   role: string,
 }
 
-export const UsersDeletion = ({ isOpen, onClose }: Props) => {
+export const UsersDeletion = ({ isOpen, onClose, untracked, setUntracked }: Props) => {
   const [search, setSearch] = useState('');
   const [selectedUser, setSelectedUser] = useState<null | User>(null);
-  const [activeUsers, setUnactiveUsers] = useState([
-  { id: 1, name: 'Juan Manuel Pérez Velázquez', gender: 'Masculino', role: 'Administrador' },
-  { id: 2, name: 'Ana García', gender: 'Femenino', role: 'Tutor'},
-  { id: 3, name: 'Carlos López', gender: 'Masculino', role: 'Estudiante' },
-  { id: 4, name: 'María Rodríguez', gender: 'Femenino', role: 'Instructor'},
-  { id: 5, name: 'Luis Fernández', gender: 'Masculino', role: 'Estudiante' }
-]);
+  const [activeUsers, setUnactiveUsers] = useState<User[]>([]);
 
 useEffect(() => {
- const fetchUnauthUsers = async () => {
+ const fetchActiveUsers = async () => {
   try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/deleteUsers`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/dash/admin/usuariosAutorizados`);
         if(!response.ok) throw new Error(`Error obteniendo usuarios activos`);
         setUnactiveUsers(await response.json());
       } catch (e) {
         console.error(`Error: ${e}`);
       }
  }
- fetchUnauthUsers();
-},[])
+ fetchActiveUsers();
+},[untracked])
   
   const closerHandler = () => {
     setSearch('');
@@ -50,17 +46,18 @@ useEffect(() => {
   }
 
   const deleteUser = async (user : User) => {
-    const unAuth = activeUsers.filter((unauthUser) => unauthUser.id!=user.id );
-    setUnactiveUsers(unAuth);
+    const users = activeUsers.filter((userDeleted) => userDeleted.id!=user.id );
+    setUnactiveUsers(users);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/acceptUsers`,{
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/dash/admin/eliminarUsuario`,{
         method:'DELETE',
         headers:{
           'Content-type': 'application/json'
         },
         body: JSON.stringify({userId:user.id})
       })
-      if(!response.ok) throw new Error(`Error autorizando usuario`);
+      if(!response.ok) throw new Error(`Error eliminando usuario`);
+      else setUntracked();
     } catch (e) {
       console.error(`Error: ${e}`);
     }
@@ -145,7 +142,7 @@ useEffect(() => {
             ))}
           </div>
         ) : (
-          <p className={style.emptySearch}>No se han encontrado estudiantes</p>
+          <p className={style.emptySearch}>No se han encontrado usuarios</p>
         )}
         
       </div>

@@ -38,12 +38,12 @@ const DashTutor = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/dash/instructor`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/dash/tutor`, {
           method: 'POST',
           headers: {
             'Content-type': 'application/json'
           },
-          body: JSON.stringify({ id_instructor: userId })
+          body: JSON.stringify({ id_tutor: userId })
         }); 
         
         if (!response.ok) throw new Error("Response error");
@@ -229,7 +229,7 @@ const DashTutor = () => {
                 tutor={true}
                 isSelected={selectedStudent?.id === student.id}
                 difficulty={student.difficulty}
-                untrackedStudents={() => setUntrackedStudents(true)}
+                setUntracked={() => setUntrackedStudents(true)}
               />
             </div>
           );

@@ -6,6 +6,7 @@ import { useAuth } from "../../context/AuthContext";
 
 interface Props {
   isOpen: boolean,
+  untracked: boolean,
   onClose: () => void
 }
 
@@ -18,7 +19,7 @@ interface Student {
 
 
 
-export const StudentsSearch = ({ isOpen, onClose }: Props) => {
+export const StudentsSearch = ({ isOpen, onClose, untracked }: Props) => {
   const [search, setSearch] = useState('');
   const [selectedStudent, setSelectedStudent] = useState<null | Student>(null);
   const [addedStudent, setAddedStudent] = useState<boolean | null>(null);
@@ -43,7 +44,7 @@ useEffect( () => {
     }
   }
   getStudents();
-}, [])
+}, [untracked])
   
   const inputChange = (change: ChangeEvent<HTMLInputElement>) => {
     setSearch(change.target.value);

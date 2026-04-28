@@ -24,7 +24,7 @@ const rolesBase = ['Administrador', 'Instructor', 'Tutor'];
 export const Register = ({ allowStudent = false, onClose }: Props) => {
   const go = useNavigate();
   const { userId } = useAuth(); 
-  const endpoint = allowStudent ? '/dash/instructor/crearEstudiante' : '/register';
+  const endpoint = allowStudent ? '/dash/tutor/crearEstudiante' : '/register';
   const rolesDisponibles = allowStudent ? ['Estudiante'] : rolesBase;
 
   const {
@@ -36,7 +36,7 @@ export const Register = ({ allowStudent = false, onClose }: Props) => {
     formState: { errors, isSubmitting }
   } = useForm<RegisterInputs>({
     defaultValues: { 
-      nombreRol: '', 
+      nombreRol: allowStudent ? rolesDisponibles[0] : '', 
       nombre: '', 
       apellido: '', 
       fecha_nacimiento: '', 
