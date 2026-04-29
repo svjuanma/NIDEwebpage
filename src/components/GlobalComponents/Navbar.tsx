@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { HashLink } from 'react-router-hash-link';
 import styles from "./navbar.module.css";
 import { useAuth } from "../../context/AuthContext";
+import { nideIcon } from '../../assets/index'
 
 const CENTER_LINKS = [
     { id: "nosotros", label: "Nosotros" },
@@ -54,7 +55,7 @@ function Navbar(): ReactElement {
         <nav className={styles.navbar} aria-label="Main navigation">
             <div className={styles.container}>
                 <Link className={styles.brand} to="/">
-                    <img src="/src/assets/LOGO-NIDE.png" alt="NIDE logo" className={styles.logo} />
+                    <img src={nideIcon} alt="NIDE logo" className={styles.logo} />
                     <span className={styles.brandText}>NIDE</span>
                 </Link>
 

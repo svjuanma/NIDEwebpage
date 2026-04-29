@@ -1,4 +1,3 @@
-// import test from "../components/Dashboard/test.json"
 import { useState, useEffect, useMemo } from "react";
 import { Card, BarsGraphH, Gauge, LinearGraph, PieGraph, ProgressCell, StudentsSearch } from "../components/Dashboard/index";
 import { users, searchLoupe } from "../assets/index";

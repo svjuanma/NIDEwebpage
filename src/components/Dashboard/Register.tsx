@@ -2,7 +2,7 @@ import style from './Register.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { useAuth } from '../../context/AuthContext';
-import { useEffect } from 'react';
+
 
 interface Props {
   allowStudent?: boolean,

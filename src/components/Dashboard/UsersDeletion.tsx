@@ -1,4 +1,3 @@
-// ! cambiar endpoint
 import { useEffect, useState, type ChangeEvent } from "react";
 import { SearchCell } from "./SearchCell";
 import style from './UsersDeletion.module.css';
@@ -50,10 +49,8 @@ useEffect(() => {
     setUnactiveUsers(users);
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/dash/admin/eliminarUsuario`,{
-        method:'DELETE',
-        headers:{
-          'Content-type': 'application/json'
-        },
+        method:'POST',
+        headers:{ 'Content-Type': 'application/json' },
         body: JSON.stringify({userId:user.id})
       })
       if(!response.ok) throw new Error(`Error eliminando usuario`);

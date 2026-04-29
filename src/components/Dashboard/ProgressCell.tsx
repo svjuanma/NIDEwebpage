@@ -46,7 +46,23 @@ export const ProgressCell = ({id, name, progress, precision, gender, instructor=
   const precisionData = [{category: "Precision", value: precision}];
   const difficultyArr = ['facil', 'intermedio', 'dificil'];
 
+  const changePassword = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/dash/recuperacionContrasena`, {
+      method: 'POST',
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({idEstudiante: id})
+    })
+    if(!response.ok) throw new Error('Cambio de contraseña');
+    else {
 
+    }
+  } catch (error) {
+    console.error(`Error: ${error}`)
+  }
+  }
   
   return(
     <div className={ [isSelected ?  style.selectedContainer : style.mainContainer, !isInstructor && style.mainContainerInteractive ].join(' ') } >
@@ -140,6 +156,16 @@ export const ProgressCell = ({id, name, progress, precision, gender, instructor=
             ))}
             </div>
           </div>
+        )}
+        {tutor && isSelected &&(
+          <div className={style.selectedDifficultyCell} 
+          style={{
+            backgroundColor: '#dedddd', 
+            width:'fit-content', 
+            borderRadius:20, 
+            padding:10,
+            justifySelf:'right'}}
+          onClick={ (e) => {e.stopPropagation(); changePassword()}}>Cambiar contraseña</div>
         )}
       </div>
     </div>);

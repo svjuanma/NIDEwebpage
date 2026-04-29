@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Nosotros from "../components/LandingPageComponents/Nosotros";
 import Hero from "../components/LandingPageComponents/Hero";
+import { usImage, misionImage, visionImage } from '../assets/index'
+
 
 function Landing(){
     const location = useLocation();
@@ -29,7 +31,7 @@ function Landing(){
                 text={
                     'Somos un grupo de profesionistas comprometidos en el desarrollo integral de las infancias mexicanas.'
                 }
-                imgSrc="/src/assets/imagen_nosotros.jpg"
+                imgSrc={usImage}
             />
 
             <Nosotros
@@ -39,7 +41,7 @@ function Landing(){
                 actividades que potencialicen las habilidades propias, brindando
                 alternativas funcionales que permitan alcanzar un crecimiento
                 académico y personal para incidir en la comunidad.`}
-                imgSrc="/src/assets/imagen_2_nide.jpg"
+                imgSrc={misionImage}
             />
 
             <Nosotros
@@ -49,7 +51,7 @@ function Landing(){
                 desarrollo infantil en México, siendo partícipes en el
                 desarrollo de cada niño que forma parte de nuestros
                 programas.`}
-                imgSrc="/src/assets/imagen_3_nide.png"
+                imgSrc={visionImage}
             />
 
             <Nosotros

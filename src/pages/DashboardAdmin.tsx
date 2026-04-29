@@ -1,4 +1,3 @@
-//! cambiar fetch
 import { useEffect, useState } from "react"
 import { Card, PieGraph, ProgressCell, PendingRequests, UsersDeletion } from "../components/Dashboard/index"
 import { users } from "../assets/index"
@@ -59,7 +58,7 @@ const DashAdmin = () => {
     {category: 'Tutores', value: Number(data.tutorNum)},
   ];
 
-  const totalUsers = Number(data.StudentNum) + Number(data.tutorNum) + data.instructors.length + Number(data.adminNum);
+  const totalUsers = dataPie.reduce( (acc, category) => acc += category.value, 0);
 
   return (
     <div className={dashboard.home}>

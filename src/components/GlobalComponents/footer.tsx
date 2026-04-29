@@ -1,3 +1,4 @@
+import { nideIcon } from '../../assets';
 import styles from './footer.module.css';
 
 function Footer() {
@@ -6,7 +7,7 @@ function Footer() {
     <footer className={styles.footer} role="contentinfo">
       <div className={styles.container}>
         <div className={styles.left}>
-          <img src="/src/assets/LOGO-NIDE.png" alt="NIDE" className={styles.logo} />
+          <img src={nideIcon} alt="NIDE" className={styles.logo} />
           <span>Fundación NIDE</span>
         </div>
 

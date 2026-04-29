@@ -3,6 +3,7 @@ import logo from '../assets/LOGO-NIDE.png';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useForm, type SubmitHandler } from 'react-hook-form';
+import { useState } from 'react';
 
 interface LoginInputs {
   role: string;
@@ -18,11 +19,34 @@ const routes = [
   { path: "/dash-tutor", rol: "Tutor" },
   { path: "/juego", rol: "Estudiante"}
 ];
+
 const registerRoute = '/register';
+
+let attempsAcc = 0;
 
 export const Login = () => {
   const { login } = useAuth();
   const go = useNavigate();
+  const [passwordChange, setPasswordChange] = useState(false);
+  
+  const changePassword = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/dash/recuperacionContrasena`, {
+      method: 'POST',
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({correoRecuperacion: email, nombreRol: currentRole})
+    })
+    if(!response.ok) throw new Error('Cambio de contraseña');
+    else {
+      setPasswordChange(true);
+      attempsAcc=0;
+    }
+  } catch (error) {
+    console.error(`Error: ${error}`)
+  }
+  }
 
   const {
     register,
@@ -36,6 +60,7 @@ export const Login = () => {
   });
 
   const currentRole = watch('role');
+  const email = watch('email');
   const isStudent = currentRole === 'Estudiante';
 
   const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
@@ -64,7 +89,12 @@ export const Login = () => {
             console.error("No se encontró una ruta para el rol:", data.role);
         }
       } else {
-        setError('root', { message: responseData.error || "Credenciales incorrectas" });
+        if(responseData.error == 'Contraseña incorrecta') {
+          attempsAcc+=1;
+          console.log(responseData.error, attempsAcc)
+
+        }
+        setError('root', { message: responseData.error });
       }
     } catch (err) {
       setError('root', { message: "Error de conexión con el servidor" });
@@ -161,6 +191,16 @@ export const Login = () => {
                 </button>
               </form>
             </div>
+            {attempsAcc >= 3 &&  (
+              <p className='registerBtn' onClick={ () => changePassword() }>
+                Olvidé mi contraseña
+              </p>
+            )}
+            {passwordChange && (
+              <p>
+                Contraseña restablecida, encuentra tu nueva contraseña en tu correo resgitrado
+              </p>
+            )}
             <p className='registerBtn' onClick={ () => go(registerRoute)}>
               Registrarme
             </p>

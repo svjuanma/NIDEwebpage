@@ -21,8 +21,8 @@ const Game = () => {
       <Unity 
         unityProvider={unityProvider} 
         style={{ 
-          width: "960px", 
-          height: "600px",
+          width: "1920px", 
+          height: "1080px",
           visibility: isLoaded ? "visible" : "hidden"
         }} 
       />
