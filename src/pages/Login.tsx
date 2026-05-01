@@ -38,6 +38,7 @@ export const Login = () => {
       },
       body: JSON.stringify({correoRecuperacion: email, nombreRol: currentRole})
     })
+
     if(!response.ok) throw new Error('Cambio de contraseña');
     else {
       setPasswordChange(true);

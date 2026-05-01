@@ -7,6 +7,7 @@ import { useAuth } from '../../context/AuthContext';
 interface Props {
   allowStudent?: boolean,
   onClose?: () => void,
+  setUntracked?: ()=>void;
 }
 
 interface RegisterInputs {
@@ -21,7 +22,7 @@ interface RegisterInputs {
 
 const rolesBase = ['Administrador', 'Instructor', 'Tutor'];
 
-export const Register = ({ allowStudent = false, onClose }: Props) => {
+export const Register = ({ allowStudent = false, onClose, setUntracked }: Props) => {
   const go = useNavigate();
   const { userId } = useAuth(); 
   const endpoint = allowStudent ? '/dash/tutor/crearEstudiante' : '/register';
@@ -71,6 +72,7 @@ export const Register = ({ allowStudent = false, onClose }: Props) => {
       
       if(!response.ok) throw new Error("Failed to send the register information");
       else {
+        setUntracked?.();
         if(!allowStudent) go('/waiting-list');
         else onClose?.();
       }

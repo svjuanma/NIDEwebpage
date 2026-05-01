@@ -3,10 +3,10 @@ import { Unity, useUnityContext } from "react-unity-webgl";
 
 const Game = () => {
   const { unityProvider, isLoaded, loadingProgression } = useUnityContext({
-    loaderUrl: "/unityBuild/JUEGO_NIDE.loader.js",
-    dataUrl: "/unityBuild/JUEGO_NIDE.data.unityweb",
-    frameworkUrl: "/unityBuild/JUEGO_NIDE.framework.js.unityweb",
-    codeUrl: "/unityBuild/JUEGO_NIDE.wasm.unityweb",
+    loaderUrl: "/Build/Build.loader.js",
+    dataUrl: "/Build/Build.data.unityweb",
+    frameworkUrl: "/Build/Build.framework.js.unityweb",
+    codeUrl: "/Build/Build.wasm.unityweb",
   });
 
   const loadingPercentage = Math.round(loadingProgression * 100);
@@ -21,8 +21,8 @@ const Game = () => {
       <Unity 
         unityProvider={unityProvider} 
         style={{ 
-          width: "1920px", 
-          height: "1080px",
+          width: "100%", 
+          height: "100%",
           visibility: isLoaded ? "visible" : "hidden"
         }} 
       />

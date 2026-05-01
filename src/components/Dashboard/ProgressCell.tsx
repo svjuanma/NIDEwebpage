@@ -48,7 +48,7 @@ export const ProgressCell = ({id, name, progress, precision, gender, instructor=
 
   const changePassword = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/dash/recuperacionContrasena`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/juego/recuperacionContrasena`, {
       method: 'POST',
       headers:{
         'Content-Type': 'application/json'

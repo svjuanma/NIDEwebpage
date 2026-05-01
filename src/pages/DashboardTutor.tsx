@@ -49,9 +49,6 @@ const DashTutor = () => {
         
         const { getStudents, npcs } = await response.json();
 
-        // await new Promise(resolve => setTimeout(resolve, 1000));
-        // const { getStudents, npcs } = test;
-        //?
         const formattedStudents: Student[] = getStudents.map((student: any) => {
           const precision = student.history.length === 0 ? 0 : Math.round(
             student.history.reduce((acc: number, stat: Statistics) => acc + ((stat.correctAnswers * 100) / stat.questions), 0) / student.history.length
@@ -206,7 +203,7 @@ const DashTutor = () => {
           </button>
         </div>
           { useRegister && (
-            <Register allowStudent={true} onClose={()=>setUseRegister(false)}/>
+            <Register allowStudent={true} setUntracked={ () => setUntrackedStudents(true)} onClose={()=>setUseRegister(false)}/>
           )}
         
         {students.map((student: Student) => {
