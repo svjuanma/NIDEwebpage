@@ -1,73 +1,60 @@
-# React + TypeScript + Vite
+# Kid plays Frontend - React Web App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este repositorio contiene la interfaz de usuario y los paneles de control del sistema educativo **Kid plays**. Es una aplicación web tipo *Single Page Application* (SPA) que permite a administradores, instructores, tutores y estudiantes interactuar con la plataforma, además de integrar de forma nativa el videojuego educativo en WebGL.
 
-Currently, two official plugins are available:
+Desarrollado como proyecto integrador para el socio formador **NIDE** en la unidad de formación *“Construcción de Software y Toma de Decisiones”* del **Tecnológico de Monterrey, Campus Estado de México**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Repositorios del Ecosistema
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+El sistema completo se compone de tres piezas fundamentales:
 
-## Expanding the ESLint configuration
+*   **Frontend Web (Este repositorio):**
+*   [**Backend API:**](https://github.com/JBanuel/backendNIDE.git)
+*   [**Videojuego:**](https://github.com/NewAndifer/VideojuegoNIDE.git)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Stack Tecnológico
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+*   **Librería Principal:** [React 18](https://react.dev/)
+*   **Lenguaje:** TypeScript (`.tsx`).
+*   **Empaquetador/Build Tool:** [Vite](https://vitejs.dev/).
+*   **Runtime:** Node.js v24.14.1.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## Estructura Principal
+
+*   `/src`: Código fuente.
+*   `/public/unityBuild`: Archivos exportados del videojuego en WebGL.
+*   `/dist`: Carpeta minificada lista para subirse a producción.
+
+---
+
+## Instalación y Configuración Local
+
+### Requisitos previos
+*   [Node.js](https://nodejs.org/) instalado.
+*   Servidor Backend activo.
+
+### 1. Clonar e Instalar dependencias
+
+```bash
+git clone https://github.com/svjuanma/NIDEwebpage.git
+cd frontendNIDE
+npm install
 ```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 2. Configurar variables de entorno 
+Crear archivo `.env` que incluya:
+```bash 
+VITE_API_URL=direccion_url_del_backend
 ```
+---
+
+## Licencia
+Este proyecto se distribuye bajo la Licencia MIT. Puedes consultar el archivo [LICENSE](https://github.com/svjuanma/NIDEwebpage/blob/main/LICENSE) para más detalles.
+
+---
+© 2026 - Juan Manuel Sánchez Velázquez | ITESM Campus Estado de México
